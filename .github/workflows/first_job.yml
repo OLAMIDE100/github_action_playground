@@ -46,17 +46,17 @@ jobs:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
          
     - name: Terraform destroy
-    if: steps.changes.outputs.infra == 'true'
-    run: |
-          echo $CREDENTIALS > gcloud-api-key.json
-          export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-          echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
-          echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-          echo 'yes' | terraform -chdir=irrcap/ETL/eodhd_api/eodhd_bulk_prices/terraform destroy
-    env:
-        CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
-                   
-                        
+      if: steps.changes.outputs.infra == 'true'
+      run: |
+            echo $CREDENTIALS > gcloud-api-key.json
+            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
+            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
+            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
+            echo 'yes' | terraform -chdir=irrcap/ETL/eodhd_api/eodhd_bulk_prices/terraform destroy
+      env:
+          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
+
+
     - name: cloudfunction deploy
       if: steps.changes.outputs.src == 'true'
       run: echo "changes in cloud function path"
