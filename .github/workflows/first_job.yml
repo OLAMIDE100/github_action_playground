@@ -21,4 +21,4 @@ jobs:
 
     steps:
     - name: Call my name
-      run: echo $my_name
+      run: echo ${my_name}
