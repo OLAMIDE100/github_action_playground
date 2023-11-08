@@ -74,33 +74,3 @@ resource "google_cloudfunctions_function" "eodhd_bulk_prices" {
   
 }
 
-
-resource "google_cloud_scheduler_job" "bulk_prices_daily" {
-  attempt_deadline = "180s"
-  name             = "bulk_prices_daily_test"
-  paused           = false
-  project          = var.gcp_project_name
-  region           = var.region
-  schedule         = "0 4 * * 2-6"
-  time_zone        = "America/New_York"
-  http_target {
-    body = "eyJFeGNoYW5nZXMiOlsiQVMiLCAiQlIiLCAiQ08iLCAiRiIsICJIRSIsICJJUiIsICJMUyIsICJMU0UiLCAiTUMiLCAiT0wiLCAiUEEiLCAiU1QiLCAiU1ciLCAiVVMiLCAiVkkiLCAiV0FSIiwgIlhFVFJBIl19"
-    headers = {
-      Content-Type = "application/json"
-    }
-    http_method = "POST"
-    uri         = google_cloudfunctions_function.eodhd_bulk_prices.https_trigger_url
-    oidc_token {
-      audience              = google_cloudfunctions_function.eodhd_bulk_prices.https_trigger_url
-      service_account_email = "dbt-user@dbt-sandbox-385616.iam.gserviceaccount.com"
-    }
-  }
-  retry_config {
-    max_backoff_duration = "3600s"
-    max_doublings        = 5
-    max_retry_duration   = "0s"
-    min_backoff_duration = "5s"
-    retry_count          = 2
-  }
-  
-}

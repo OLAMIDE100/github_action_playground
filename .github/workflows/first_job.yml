@@ -1,0 +1,32 @@
+name: 'first_job'
+
+on:
+  push:
+    branches: [ "main" ]
+  
+
+permissions:
+  contents: read
+
+jobs:
+  first_job:
+    name: 'testing_git_action'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        my_name: ${{ variables.my_name }}
+      run: echo $my_name
