@@ -24,6 +24,7 @@ jobs:
 
 
   second_job:
+    needs: first_job
     name: 'testing_git_action_2'
     runs-on: ubuntu-latest
     environment: production
