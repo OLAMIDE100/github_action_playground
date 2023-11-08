@@ -21,4 +21,4 @@ jobs:
 
     steps:
     - name: Call my name
-      run: echo ${{ env.my_name}}
+      run: echo "${{env.my_name}}"
