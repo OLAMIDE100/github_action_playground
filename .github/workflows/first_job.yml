@@ -37,10 +37,12 @@ jobs:
     - name: Terraform Init
       if: steps.changes.outputs.infra == 'true'
       run: |
+           echo $CREDENTIALS > gcloud-api-key.json
+           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
       env:
-         GOOGLE_APPLICATION_CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
+         CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
          
 
                         
