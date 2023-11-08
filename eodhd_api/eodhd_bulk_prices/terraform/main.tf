@@ -49,6 +49,8 @@ resource "google_cloudfunctions_function_iam_member" "member" {
 
 
 
+
+
 resource "google_cloudfunctions_function" "eodhd_bulk_prices" {
   available_memory_mb          = 1024
   entry_point                  = "main"
