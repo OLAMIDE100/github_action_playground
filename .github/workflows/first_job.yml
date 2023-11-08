@@ -29,4 +29,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         my_name: ${{ variables.my_name }}
+      
+      
+    - name: Call my name
       run: echo $my_name
