@@ -46,13 +46,13 @@ jobs:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
          
     - name: Terraform destroy
-      if: steps.changes.outputs.infra == 'true'
+      if: steps.changes.outputs.src == 'true'
       run: |
             echo $CREDENTIALS > gcloud-api-key.json
             export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
             echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
             echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform destroy
+            terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform destroy apply -auto-approve
       env:
           CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
