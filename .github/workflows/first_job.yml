@@ -11,12 +11,18 @@ on:
   
 
 jobs:
-  first_job:
-    name: 'testing_git_action'
+  Cloud_Resources_Deployment:
+    name: 'Cloud_Resources_Deployment'
     runs-on: ubuntu-latest
+    environment: production
+
+
     steps:
-    - uses: actions/checkout@v3
-    - uses: dorny/paths-filter@v2
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Detect_Chnages
+      uses: dorny/paths-filter@v2
       id: changes
       with:
         filters: |
@@ -24,16 +30,23 @@ jobs:
             - 'eodhd_api/eodhd_bulk_prices/cloudfunction/**'
           infra:
             - 'eodhd_api/eodhd_bulk_prices/terraform/**'
-                      
+
+    - name: Setup_Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Terraform Init
+      if: steps.changes.outputs.infra == 'true'
+      run: |
+           echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
+           echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
+
+                        
     - name: cloudfunction deploy
       if: steps.changes.outputs.src == 'true'
       run: echo "changes in cloud function path"
       
-    - name: terraform deploy
-      if: steps.changes.outputs.infra == 'true'
-      run: |
-         ls
-         echo "chnages in terraform path"
     
   
 
