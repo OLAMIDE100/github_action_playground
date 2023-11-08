@@ -8,6 +8,7 @@ on:
      - 'eodhd_api/eodhd_bulk_prices/cloudfunction/**'
     
   
+  
 
 permissions:
   contents: read
