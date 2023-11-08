@@ -35,7 +35,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
-      if: steps.changes.outputs.infra == 'true' || steps.changes.outputs.src == 'true'
+      if: steps.changes.outputs.infra == 'true' 
       run: |
            echo $CREDENTIALS > gcloud-api-key.json
            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
