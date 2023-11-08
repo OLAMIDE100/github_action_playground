@@ -5,36 +5,32 @@ on:
     branches:
      - "main"
     paths:
-     - 'eodhd_api/eodhd_bulk_prices/cloudfunction/**'
+     - 'eodhd_api/**'
     
   
   
-
-permissions:
-  contents: read
 
 jobs:
   first_job:
     name: 'testing_git_action'
-    runs-on: ubuntu-latest
-    environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     steps:
-    - name: Call my name
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          src:
+            - 'eodhd_api/eodhd_bulk_prices/cloudfunction/**'
+          infra:
+            - 'eodhd_api/eodhd_bulk_prices/terraform/**'
+                      
+    - name: cloudfunction deploy
+      if: steps.changes.outputs.src == 'true'
+      run: echo "changes in cloud function path"
+      
+    - name: terraform deploy
+      if: steps.changes.outputs.infra == 'true'
+      run: echon "chnages in terraform path"
     
-    - name: check files
-      run: ls 
+  
 
-
-  second_job:
-    needs: first_job
-    name: 'testing_git_action_2'
-    runs-on: ubuntu-latest
-    environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    steps:
-    - name: Call my name
-      run: echo "${{vars.MY_NAME}}"
