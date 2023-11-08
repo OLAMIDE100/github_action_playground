@@ -2,7 +2,7 @@ name: 'first_job'
 
 on:
   push:
-    branches: [ "main/cloudfunction" ]
+    branches: [ "main/cloudfunction/**" ]
   
 
 permissions:
