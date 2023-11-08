@@ -20,7 +20,7 @@ jobs:
       run: echo "$MY_NAME"
 
 
-  first_job:
+  second_job:
     name: 'testing_git_action_2'
     runs-on: ubuntu-latest
     environment: production
