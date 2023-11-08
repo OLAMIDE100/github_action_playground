@@ -28,4 +28,4 @@ jobs:
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     steps:
     - name: Call my name
-      run: echo "$vars.MY_NAME"
+      run: echo "${{vars.MY_NAME}}"
