@@ -41,7 +41,7 @@ jobs:
            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-           echo 'yes' | terraform -chdir=irrcap/ETL/eodhd_api/eodhd_bulk_prices/terraform  apply
+           echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  apply
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
          
@@ -52,7 +52,7 @@ jobs:
             export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
             echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
             echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-            echo 'yes' | terraform -chdir=irrcap/ETL/eodhd_api/eodhd_bulk_prices/terraform destroy
+            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform destroy
       env:
           CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
