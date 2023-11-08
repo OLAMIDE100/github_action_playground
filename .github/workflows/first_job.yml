@@ -19,4 +19,4 @@ jobs:
 
     steps:
     - name: Call my name
-      run: echo "${{vars.MY_NAME}}"
+      run: echo "$MY_NAME"
