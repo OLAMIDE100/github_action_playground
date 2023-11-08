@@ -35,7 +35,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
-      if: steps.changes.outputs.infra == 'true'
+      if: steps.changes.outputs.infra == 'true' || steps.changes.outputs.src == 'true'
       run: |
            echo $CREDENTIALS > gcloud-api-key.json
            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
@@ -52,7 +52,7 @@ jobs:
             export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
             echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init -lock=false
             terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-            terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform destroy apply
+            terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform destroy
       env:
           CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
