@@ -31,7 +31,9 @@ jobs:
       
     - name: terraform deploy
       if: steps.changes.outputs.infra == 'true'
-      run: echon "chnages in terraform path"
+      run: |
+         ls
+         echo "chnages in terraform path"
     
   
 
