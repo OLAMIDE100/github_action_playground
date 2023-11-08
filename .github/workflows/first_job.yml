@@ -40,8 +40,8 @@ jobs:
            echo $CREDENTIALS > gcloud-api-key.json
            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init
-           echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-           echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  apply
+           terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
+           terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  apply -auto-approve -input=false
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
          
