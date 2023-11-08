@@ -5,7 +5,7 @@ on:
     branches:
      - "main"
     paths:
-     - 'cloudfunction/**'
+     - 'eodhd_api/eodhd_bulk_prices/cloudfunction/**'
     
   
 
