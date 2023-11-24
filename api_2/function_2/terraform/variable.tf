@@ -14,3 +14,8 @@ variable "function_version" {
   type = string
   default = "1"
 }
+
+variable "solution"{
+  default = "api_2_function_2"
+}
+

@@ -5,7 +5,8 @@ on:
     branches:
      - "main"
     paths:
-     - 'eodhd_api/**'
+     - 'api_1/**'
+     - 'api_2/**'
     
   
   
@@ -26,40 +27,65 @@ jobs:
       id: changes
       with:
         filters: |
-          src:
-            - 'eodhd_api/eodhd_bulk_prices/cloudfunction/**'
-          infra:
-            - 'eodhd_api/eodhd_bulk_prices/terraform/**'
+          api_1_function_1:
+            - 'api_1/function_1/**'
+          api_1_function_2:
+            - 'api_1/function_2/**'
+          api_2_function_1:
+            - 'api_2/function_1/**'
+          api_2_function_2:
+            - 'api_2/function_2/**'
 
     - name: Setup_Terraform
       uses: hashicorp/setup-terraform@v1
 
-    - name: Terraform Init
-      if: steps.changes.outputs.infra == 'true' 
+    - name: api_1_function_1
+      if: steps.changes.outputs.api_1_function_1 == 'true' 
       run: |
            echo $CREDENTIALS > gcloud-api-key.json
            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-           echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init 
-           terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  plan
-           terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform  apply -auto-approve -input=false
+           echo 'yes' | terraform -chdir=api_1/function_1/terraform init 
+           terraform -chdir=api_1/function_1/terraform  plan
+           terraform -chdir=api_1/function_1/terraform  apply -auto-approve -input=false
+      env:
+         CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
+
+
+    - name: api_1_function_2
+      if: steps.changes.outputs.api_1_function_2 == 'true' 
+      run: |
+           echo $CREDENTIALS > gcloud-api-key.json
+           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
+           echo 'yes' | terraform -chdir=api_1/function_2/terraform init 
+           terraform -chdir=api_1/function_2/terraform  plan
+           terraform -chdir=api_1/function_2/terraform  apply -auto-approve -input=false
+      env:
+         CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
+
+
+    - name: api_2_function_1
+      if: steps.changes.outputs.api_2_function_1 == 'true' 
+      run: |
+           echo $CREDENTIALS > gcloud-api-key.json
+           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
+           echo 'yes' | terraform -chdir=api_2/function_1/terraform init 
+           terraform -chdir=api_2/function_1/terraform  plan
+           terraform -chdir=api_2/function_1/terraform  apply -auto-approve -input=false
+      env:
+         CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
+
+    - name: api_1_function_1
+      if: steps.changes.outputs.api_2_function_2 == 'true' 
+      run: |
+           echo $CREDENTIALS > gcloud-api-key.json
+           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
+           echo 'yes' | terraform -chdir=api_2/function_2/terraform init 
+           terraform -chdir=api_2/function_2/terraform  plan
+           terraform -chdir=api_2/function_2/terraform  apply -auto-approve -input=false
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
          
-    - name: Terraform destroy
-      if: steps.changes.outputs.src == 'true'
-      run: |
-            echo $CREDENTIALS > gcloud-api-key.json
-            export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-            echo 'yes' | terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform init -lock=false
-            terraform -chdir=eodhd_api/eodhd_bulk_prices/terraform destroy -auto-approve -lock=false
-      env:
-          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
-
-    - name: cloudfunction deploy
-      if: steps.changes.outputs.src == 'true'
-      run: echo "changes in cloud function path"
-      
     
   
 

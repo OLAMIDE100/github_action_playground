@@ -11,7 +11,7 @@ terraform {
 terraform {
   backend "gcs" {
     bucket  = "irrcap_terraform_backend"
-    prefix  = "gcp/eodhd_bulk_prices/state"
+    prefix  = "gcp/api_2/function_1/state"
   }
 }
 
@@ -27,7 +27,7 @@ provider "google" {
 data "archive_file" "source" {
     type        = "zip"
     source_dir  = "../cloudfunction/app"
-    output_path = "eodhd_bulk_prices/${var.function_version}/function-source.zip"
+    output_path = "function_1/${var.function_version}/function-source.zip"
 }
 
 resource "google_storage_bucket_object" "archive" {
@@ -54,14 +54,13 @@ resource "google_cloudfunctions_function_iam_member" "member" {
 resource "google_cloudfunctions_function" "eodhd_bulk_prices" {
   available_memory_mb          = 1024
   entry_point                  = "main"
-  environment_variables        = {}
   https_trigger_security_level = "SECURE_ALWAYS"
 
   ingress_settings             = "ALLOW_ALL"
  
   max_instances                 = 3000
   min_instances                 = 0
-  name                          = "eodhd_bulk_prices_test"
+  name                          = var.solution
   project                       = var.gcp_project_name
   region                        = var.region
   runtime                       = "python39"
@@ -70,11 +69,8 @@ resource "google_cloudfunctions_function" "eodhd_bulk_prices" {
   source_archive_object         = google_storage_bucket_object.archive.name
   timeout                       = 300
   trigger_http                  = true
-  secret_environment_variables {
-    key        = "EODHDAPIToken"
-    project_id = "975294063990"
-    secret     = "EODHDAPIToken"
-    version    = "1"
+  environment_variables = {
+   name = var.solution
   }
   
 }
