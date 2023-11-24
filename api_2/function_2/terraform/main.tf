@@ -27,7 +27,7 @@ provider "google" {
 data "archive_file" "source" {
     type        = "zip"
     source_dir  = "../cloudfunction/app"
-    output_path = "function_1/${var.function_version}/function-source.zip"
+    output_path = "api_2_function_2/${var.function_version}/function-source.zip"
 }
 
 resource "google_storage_bucket_object" "archive" {
