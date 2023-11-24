@@ -74,7 +74,7 @@ jobs:
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
-    - name: api_1_function_1
+    - name: api_2_function_2
       if: steps.changes.outputs.api_2_function_2 == 'true' 
       run: |
            echo $CREDENTIALS > gcloud-api-key.json
