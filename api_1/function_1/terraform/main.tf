@@ -38,6 +38,10 @@ resource "google_storage_bucket_object" "archive" {
           depends_on = [ data.archive_file.source]
 }
 
+
+
+
+
 resource "google_cloudfunctions_function_iam_member" "member" {
   project         = google_cloudfunctions_function.eodhd_bulk_prices.project
   region          = google_cloudfunctions_function.eodhd_bulk_prices.region
