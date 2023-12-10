@@ -38,12 +38,15 @@ resource "null_resource" "helper_function" {
   triggers = {
             always_run = timestamp()
           }
+   depends_on = [ null_resource.copy_helper_function]
 }
 
 data "archive_file" "source" {
     type        = "zip"
     source_dir  = "../cloudfunction/app"
     output_path = "api_1_function_1/${var.function_version}/function-source.zip"
+     depends_on = [ null_resource.copy_helper_function]
+
 }
 
 resource "google_storage_bucket_object" "archive" {
