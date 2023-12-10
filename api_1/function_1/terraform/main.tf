@@ -22,7 +22,11 @@ provider "google" {
   region      = var.region 
 }
 
-
+resource "null_resource" "copy_helper_function" {
+  provisioner "local-exec" {
+    command = "cp -r ../../../loader ../cloudfunction/app"
+  }
+}
 
 data "archive_file" "source" {
     type        = "zip"
@@ -74,7 +78,8 @@ resource "google_cloudfunctions_function" "eodhd_bulk_prices" {
   timeout                       = 300
   trigger_http                  = true
   environment_variables = {
-   name = var.solution
+   name = var.solution,
+   age = var.function_version
   }
   
 }
