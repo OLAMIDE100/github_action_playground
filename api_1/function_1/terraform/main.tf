@@ -26,6 +26,9 @@ resource "null_resource" "copy_helper_function" {
   provisioner "local-exec" {
     command = "cp -r ../../../loader ../cloudfunction/app"
   }
+  triggers = {
+            always_run = timestamp()
+          }
 }
 
 resource "null_resource" "helper_function" {
