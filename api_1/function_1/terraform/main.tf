@@ -28,6 +28,12 @@ resource "null_resource" "copy_helper_function" {
   }
 }
 
+resource "null_resource" "helper_function" {
+  provisioner "local-exec" {
+    command = "ls ../cloudfunction/app"
+  }
+}
+
 data "archive_file" "source" {
     type        = "zip"
     source_dir  = "../cloudfunction/app"
