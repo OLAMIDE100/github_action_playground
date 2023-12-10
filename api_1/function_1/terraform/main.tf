@@ -35,6 +35,9 @@ resource "null_resource" "helper_function" {
   provisioner "local-exec" {
     command = "ls ../cloudfunction/app"
   }
+  triggers = {
+            always_run = timestamp()
+          }
 }
 
 data "archive_file" "source" {
