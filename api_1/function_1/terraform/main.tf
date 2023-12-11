@@ -31,15 +31,9 @@ resource "null_resource" "copy_helper_function" {
           }
 }
 
-resource "null_resource" "helper_function" {
-  provisioner "local-exec" {
-    command = "ls ../cloudfunction/app"
-  }
-  triggers = {
-            always_run = timestamp()
-          }
-   depends_on = [ null_resource.copy_helper_function]
-}
+
+
+
 
 data "archive_file" "source" {
     type        = "zip"
