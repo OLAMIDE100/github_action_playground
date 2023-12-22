@@ -7,6 +7,7 @@ on:
     paths:
      - 'api_1/**'
      - 'api_2/**'
+     - 'tag.sh'
     
   
   
@@ -35,6 +36,8 @@ jobs:
             - 'api_2/function_1/**'
           api_2_function_2:
             - 'api_2/function_2/**'
+            tag:
+              - 'tag.sh'
 
     - name: Setup_Terraform
       uses: hashicorp/setup-terraform@v1
@@ -84,6 +87,13 @@ jobs:
            terraform -chdir=api_2/function_2/terraform  apply -auto-approve -input=false
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
+
+
+    - name: api_2_function_2
+      if: steps.changes.outputs.tag == 'true' 
+      run: |
+          bash tag.sh
+  
          
 
     
