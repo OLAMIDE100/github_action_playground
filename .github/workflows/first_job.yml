@@ -36,8 +36,8 @@ jobs:
             - 'api_2/function_1/**'
           api_2_function_2:
             - 'api_2/function_2/**'
-            tag:
-              - 'tag.sh'
+          tag:
+            - 'tag.sh'
 
     - name: Setup_Terraform
       uses: hashicorp/setup-terraform@v1
