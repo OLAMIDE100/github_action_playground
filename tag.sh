@@ -1,4 +1,2 @@
-echo ${GITHUB_RUN_ID}
-echo ${GITHUB_RUN_ATTEMPT}
-echo ${GITHUB_RUN_NUMBER}
-echo "kemi"
+export TF_VAR_function_version=${GITHUB_RUN_NUMBER}_${GITHUB_RUN_ATTEMPT}
+echo $TF_VAR_function_version
