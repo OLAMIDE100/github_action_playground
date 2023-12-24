@@ -24,6 +24,9 @@ provider "google" {
 
 
 
+
+
+
 data "archive_file" "source" {
     type        = "zip"
     source_dir  = "../cloudfunction/app"
