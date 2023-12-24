@@ -7,7 +7,6 @@ on:
     paths:
      - 'api_1/**'
      - 'api_2/**'
-     - 'tag.sh'
     
   
   
@@ -36,8 +35,6 @@ jobs:
             - 'api_2/function_1/**'
           api_2_function_2:
             - 'api_2/function_2/**'
-          tag:
-            - 'tag.sh'
 
     - name: Setup_Terraform
       uses: hashicorp/setup-terraform@v1
@@ -45,11 +42,8 @@ jobs:
     - name: api_1_function_1
       if: steps.changes.outputs.api_1_function_1 == 'true' 
       run: |
-           echo $CREDENTIALS > gcloud-api-key.json
-           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-           echo 'yes' | terraform -chdir=api_1/function_1/terraform init 
-           terraform -chdir=api_1/function_1/terraform  plan
-           terraform -chdir=api_1/function_1/terraform  apply -auto-approve -input=false
+           bash play.sh "api_1/function_1/terraform"
+    
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
@@ -57,11 +51,8 @@ jobs:
     - name: api_1_function_2
       if: steps.changes.outputs.api_1_function_2 == 'true' 
       run: |
-           echo $CREDENTIALS > gcloud-api-key.json
-           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-           echo 'yes' | terraform -chdir=api_1/function_2/terraform init 
-           terraform -chdir=api_1/function_2/terraform  plan
-           terraform -chdir=api_1/function_2/terraform  apply -auto-approve -input=false
+          bash play.sh "api_1/function_2/terraform"
+
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
@@ -69,31 +60,17 @@ jobs:
     - name: api_2_function_1
       if: steps.changes.outputs.api_2_function_1 == 'true' 
       run: |
-           echo $CREDENTIALS > gcloud-api-key.json
-           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-           echo 'yes' | terraform -chdir=api_2/function_1/terraform init 
-           terraform -chdir=api_2/function_1/terraform  plan
-           terraform -chdir=api_2/function_1/terraform  apply -auto-approve -input=false
+           bash play.sh "api_2/function_1/terraform"
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
     - name: api_2_function_2
       if: steps.changes.outputs.api_2_function_2 == 'true' 
       run: |
-           echo $CREDENTIALS > gcloud-api-key.json
-           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-api-key.json
-           echo 'yes' | terraform -chdir=api_2/function_2/terraform init 
-           terraform -chdir=api_2/function_2/terraform  plan
-           terraform -chdir=api_2/function_2/terraform  apply -auto-approve -input=false
+           bash play.sh "api_2/function_2/terraform"
       env:
          CREDENTIALS : ${{ secrets.TF_API_TOKEN }}
 
-
-    - name: api_2_function_2
-      if: steps.changes.outputs.tag == 'true' 
-      run: |
-          bash tag.sh
-  
          
 
     
