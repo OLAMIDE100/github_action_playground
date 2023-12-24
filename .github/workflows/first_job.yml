@@ -3,7 +3,7 @@ name: 'first_job'
 on:
   push:
     branches:
-     - "test"
+     - "main"
     paths:
      - 'api_1/**'
      - 'api_2/**'
